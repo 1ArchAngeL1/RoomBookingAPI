@@ -33,8 +33,7 @@ public class UserService {
         }
     }
 
-    public void deleteUser(UserDto userInfo){
-        String username = userInfo.getUsername();
+    public void deleteUser(String username){
         if(userRepository.existsById(username)){
             userRepository.deleteById(username);
         }

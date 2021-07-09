@@ -38,7 +38,7 @@ public class ReservationController {
     }
 
 
-    @GetMapping
+    @GetMapping(path = "/api/v1/getinvitedusers")
     public List<User> getInvitedUsers(@RequestBody CasualDto info){
         return reservationService.getInvitedUsers(info.getId());
     }

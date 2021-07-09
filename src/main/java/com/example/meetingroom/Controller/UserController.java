@@ -26,13 +26,14 @@ public class UserController {
         userService.addUser(info);
     }
 
-    @PostMapping
+    @DeleteMapping
     @RequestMapping(path = "/api/v1/deleteuser")
-    public void delete(@RequestBody UserDto info){
-        userService.deleteUser(info);
+    public void delete(@RequestBody CasualStringDto info){
+        userService.deleteUser(info.getUsername());
     }
+
     @GetMapping("/api/v1/getuser")
-    public User getUser(@RequestBody UserDto info){
+    public User getUser(@RequestBody CasualStringDto info){
         return userService.getUser(info.getUsername());
     }
 

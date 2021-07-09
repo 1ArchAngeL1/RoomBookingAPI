@@ -1,6 +1,6 @@
 package com.example.meetingroom.Service;
 
-import com.example.meetingroom.DTO.EditRoom;
+import com.example.meetingroom.DTO.EditRoomDto;
 import com.example.meetingroom.DTO.RoomDto;
 import com.example.meetingroom.Entity.Room;
 import com.example.meetingroom.Repository.RoomRepository;
@@ -21,12 +21,13 @@ public class RoomService {
         roomRepository.save(new Room(num_allowed));
     }
 
-    public void editRoom(EditRoom roomInfo){
+    public void editRoom(EditRoomDto roomInfo){
         Long room_id = roomInfo.getRoom_id();
         int num_allowed = roomInfo.getNum_allowed();
         if(roomRepository.existsById(room_id)){
-            roomRepository.deleteById(room_id);
-            roomRepository.save(new Room(num_allowed));
+            Room room = roomRepository.getById(room_id);
+            room.setPeople_allowed(num_allowed);
+            roomRepository.save(room);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.example.meetingroom.DTO;
 
-public class EditRoom {
+public class EditRoomDto {
     private int num_allowed;
     private Long room_id;
 
@@ -20,7 +20,7 @@ public class EditRoom {
         this.room_id = room_id;
     }
 
-    public EditRoom(int num_allowed, Long room_id) {
+    public EditRoomDto(int num_allowed, Long room_id) {
         this.num_allowed = num_allowed;
         this.room_id = room_id;
     }

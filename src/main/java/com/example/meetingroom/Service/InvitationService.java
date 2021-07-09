@@ -45,9 +45,10 @@ public class InvitationService {
         return invitationRepository.findAll();
     }
 
-    public void deleteInvitation(CasualDto dto){
-        if(invitationRepository.existsById(dto.getId())){
-            invitationRepository.deleteById(dto.getId());
+
+    public void cencelInvitation(Long invitation_id){
+        if(invitationRepository.existsById(invitation_id)){
+            invitationRepository.deleteById(invitation_id);
         }
     }
 

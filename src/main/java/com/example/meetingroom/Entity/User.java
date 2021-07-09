@@ -1,6 +1,8 @@
 package com.example.meetingroom.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +26,13 @@ public class User {
         this.password = password;
         this.full_name = full_name;
     }
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private List<Invitation>  invitations = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "host",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
+    private List<Reservation> hostedMeetings = new ArrayList<>();
 
 
     public List<Invitation> getInvitations() {
@@ -37,9 +43,7 @@ public class User {
         return hostedMeetings;
     }
 
-    @OneToMany(mappedBy = "host",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
-    private List<Reservation> hostedMeetings = new ArrayList<>();
-
+    @JsonIgnore
     public ArrayList<Room> getRooms(){
         ArrayList<Room> rooms = new ArrayList<>();
         for(Invitation res : invitations){

@@ -42,6 +42,12 @@ public class Reservation {
     private List<Invitation> reservations = new ArrayList<>();
 
 
+    public boolean canAdd(){
+        int max_size = room.getPeople_allowed();
+        int current_num = reservations.size();
+        return max_size > current_num;
+    }
+
     public List<User> invitedUsers(){
         ArrayList<User> invitedUsers = new ArrayList<>();
         for(Invitation inv :reservations){
