@@ -19,7 +19,7 @@ public class Room {
     private int people_allowed;
 
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "room")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "room",cascade = CascadeType.REMOVE)
     private List<Reservation> reservationsOnThisRoom = new ArrayList<>();
 
 

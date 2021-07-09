@@ -1,6 +1,8 @@
 package com.example.meetingroom.Service;
 
+import com.example.meetingroom.DTO.CasualDto;
 import com.example.meetingroom.DTO.ReservationDto;
+import com.example.meetingroom.Entity.Invitation;
 import com.example.meetingroom.Entity.Reservation;
 import com.example.meetingroom.Entity.Room;
 import com.example.meetingroom.Entity.User;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,14 +23,17 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     private UserService userService;
     private RoomService roomService;
+    private InvitationService invitationService;
 
     @Autowired
     public ReservationService(@Lazy ReservationRepository reservationRepository,
                               @Lazy UserService userService,
-                              @Lazy RoomService roomService){
+                              @Lazy RoomService roomService,
+                              @Lazy InvitationService invitationService){
         this.reservationRepository = reservationRepository;
         this.userService = userService;
         this.roomService = roomService;
+        this.invitationService = invitationService;
     }
 
     public void addReservation(ReservationDto reservationInfo){
@@ -53,8 +60,18 @@ public class ReservationService {
         return null;
     }
 
-    public void deleteReservation(Long id){
-        if(reservationRepository.existsById(id))reservationRepository.deleteById(id);
+
+    public void cencelReservation(Long id){
+        if(reservationRepository.existsById(id)){
+            reservationRepository.deleteById(id);
+        }
+    }
+
+    public List<User> getInvitedUsers(Long id){
+        if(reservationRepository.existsById(id)){
+            return reservationRepository.getById(id).invitedUsers();
+        }
+        return null;
     }
 
 }

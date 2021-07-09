@@ -1,6 +1,9 @@
 package com.example.meetingroom.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,20 +16,27 @@ public class Invitation {
     @Column(name = "STATUS")
     Status status;
 
-
     @ManyToOne
     @JoinColumn(name = "USER_ID",referencedColumnName = "USERNAME")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "RESERVATION_ID",referencedColumnName = "ID")
     private Reservation reservation;
 
-    public Invitation(User user, Reservation reservation) {
+    public Invitation(User user, Reservation reservation,Status status) {
         this.user = user;
         this.reservation = reservation;
+        this.status = status;
     }
 
+
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Invitation() {}
 
@@ -41,4 +51,5 @@ public class Invitation {
     public Reservation getReservation() {
         return reservation;
     }
+
 }

@@ -1,10 +1,13 @@
 package com.example.meetingroom.Service;
 
 import com.example.meetingroom.DTO.UserDto;
+import com.example.meetingroom.Entity.Invitation;
 import com.example.meetingroom.Entity.User;
 import com.example.meetingroom.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -35,6 +38,13 @@ public class UserService {
         if(userRepository.existsById(username)){
             userRepository.deleteById(username);
         }
+    }
+
+    public List<Invitation> getInvitations(String username){
+        if(userRepository.existsById(username)){
+            return userRepository.getById(username).getInvitations();
+        }
+        return null;
     }
 
 

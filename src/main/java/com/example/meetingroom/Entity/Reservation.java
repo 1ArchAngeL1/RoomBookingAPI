@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +38,18 @@ public class Reservation {
         this.host = host;
     }
 
-    @OneToMany(mappedBy = "reservation",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reservation",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Invitation> reservations = new ArrayList<>();
+
+
+    public List<User> invitedUsers(){
+        ArrayList<User> invitedUsers = new ArrayList<>();
+        for(Invitation inv :reservations){
+            invitedUsers.add(inv.getUser());
+        }
+        return invitedUsers;
+    }
+
 
     public boolean interrupts(Date  starting,Date  ending){
         if(starting.compareTo(start_time) > 0 && starting.compareTo(end_time) < 0)return true;
@@ -69,7 +80,7 @@ public class Reservation {
         return start_time;
     }
 
-    public Date DategetEnd_time() {
+    public Date getEnd_time() {
         return end_time;
     }
 }

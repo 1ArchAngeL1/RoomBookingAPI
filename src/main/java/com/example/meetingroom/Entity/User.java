@@ -25,11 +25,19 @@ public class User {
         this.full_name = full_name;
     }
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private List<Invitation>  invitations = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "host",fetch = FetchType.LAZY)
+    public List<Invitation> getInvitations() {
+        return invitations;
+    }
+
+    public List<Reservation> getHostedMeetings() {
+        return hostedMeetings;
+    }
+
+    @OneToMany(mappedBy = "host",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private List<Reservation> hostedMeetings = new ArrayList<>();
 
     public ArrayList<Room> getRooms(){

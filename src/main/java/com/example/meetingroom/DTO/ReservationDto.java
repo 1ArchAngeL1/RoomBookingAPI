@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ReservationDto {
@@ -18,6 +19,7 @@ public class ReservationDto {
     private Date  end_time;
     @JsonInclude
     private String host_name;
+
 
     public ReservationDto(Long room_id, Date start_time, Date  end_time, String host_name) {
         this.room_id = room_id;
