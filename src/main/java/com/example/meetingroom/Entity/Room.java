@@ -12,24 +12,27 @@ import java.util.List;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "ROOM_ID")
+    private Long room_id;
 
-    @Column
+    @Column(name = "NUM_ALLOWED")
     private int people_allowed;
-
-    @Column(unique = true)
-    private String room_name;
-
-    public Room(int people_allowed, String room_name) {
-        this.people_allowed = people_allowed;
-        this.room_name = room_name;
-    }
-
-    public Room() {}
 
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "room")
     private List<Reservation> reservationsOnThisRoom = new ArrayList<>();
+
+
+    public Room(int people_allowed) {
+        this.people_allowed = people_allowed;
+    }
+
+
+    public List<Reservation> getReservationsOnThisRoom() {
+        return reservationsOnThisRoom;
+    }
+    public Room() {}
+
 
 
     public int getPeople_allowed() {
@@ -40,19 +43,7 @@ public class Room {
         this.people_allowed = people_allowed;
     }
 
-    public String getRoom_name() {
-        return room_name;
-    }
-
-    public void setRoom_name(String room_name) {
-        this.room_name = room_name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
+    public Long getRoom_id() {
+        return room_id;
     }
 }

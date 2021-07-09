@@ -4,27 +4,31 @@ package com.example.meetingroom.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "usersandreservations")
-public class UsersAndReservations {
-
+@Table(name = "invitations")
+public class Invitation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "STATUS")
+    Status status;
+
+
     @ManyToOne
-    @JoinColumn(name = "user_id",referencedColumnName = "username")
+    @JoinColumn(name = "USER_ID",referencedColumnName = "USERNAME")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_id",referencedColumnName = "id")
+    @JoinColumn(name = "RESERVATION_ID",referencedColumnName = "ID")
     private Reservation reservation;
 
-    public UsersAndReservations(User user, Reservation reservation) {
+    public Invitation(User user, Reservation reservation) {
         this.user = user;
         this.reservation = reservation;
     }
 
-    public UsersAndReservations() {}
+
+    public Invitation() {}
 
     public Long getId() {
         return id;

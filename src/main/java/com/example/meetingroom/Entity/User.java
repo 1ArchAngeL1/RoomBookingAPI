@@ -1,8 +1,6 @@
 package com.example.meetingroom.Entity;
 
 
-import org.hibernate.annotations.NotFound;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +9,14 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     @Id
+    @Column(name = "USERNAME")
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Column(nullable = false)
+
+    @Column(nullable = false,name = "FULL_NAME")
     private String full_name;
 
     public User(String username, String password, String full_name) {
@@ -26,12 +26,15 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private List<UsersAndReservations> myReservations = new ArrayList<>();
+    private List<Invitation>  invitations = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "host",fetch = FetchType.LAZY)
+    private List<Reservation> hostedMeetings = new ArrayList<>();
 
     public ArrayList<Room> getRooms(){
         ArrayList<Room> rooms = new ArrayList<>();
-        for(UsersAndReservations res : myReservations){
+        for(Invitation res : invitations){
             rooms.add(res.getReservation().getRoom());
         }
         return rooms;
