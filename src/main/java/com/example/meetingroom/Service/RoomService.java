@@ -31,15 +31,16 @@ public class RoomService {
         }
     }
 
-
     public void deleteRoom(Long room_id){
         if(roomRepository.existsById(room_id)){
             roomRepository.deleteById(room_id);
         }
     }
 
-    public Room getRoom(Long room_id){
-        if(roomRepository.existsById(room_id))return roomRepository.getById(room_id);
+    public Room getRoom(Long id){
+        if(roomRepository.existsById(id)){
+            return roomRepository.getById(id);
+        }
         return null;
     }
 

@@ -6,6 +6,7 @@ import com.example.meetingroom.Entity.Invitation;
 import com.example.meetingroom.Entity.User;
 import com.example.meetingroom.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class UserController {
     @PostMapping
     @RequestMapping(path = "/api/v1/register")
     public void register(@RequestBody UserDto info){
+        String password = info.getPassword();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        info.setPassword(encoder.encode(password));
         userService.addUser(info);
     }
 

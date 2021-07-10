@@ -1,5 +1,6 @@
 package com.example.meetingroom.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public class CasualDto {

@@ -1,5 +1,6 @@
 package com.example.meetingroom.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Room {
     private int people_allowed;
 
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "room",cascade = CascadeType.REMOVE)
     private List<Reservation> reservationsOnThisRoom = new ArrayList<>();
 
@@ -26,13 +28,12 @@ public class Room {
     public Room(int people_allowed) {
         this.people_allowed = people_allowed;
     }
+    public Room() {}
 
-
+    @JsonIgnore
     public List<Reservation> getReservationsOnThisRoom() {
         return reservationsOnThisRoom;
     }
-    public Room() {}
-
 
 
     public int getPeople_allowed() {

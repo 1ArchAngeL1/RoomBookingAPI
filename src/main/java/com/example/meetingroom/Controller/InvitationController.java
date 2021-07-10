@@ -5,10 +5,9 @@ import com.example.meetingroom.DTO.InvitationDto;
 import com.example.meetingroom.Entity.Status;
 import com.example.meetingroom.Service.InvitationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 public class InvitationController {
@@ -19,6 +18,11 @@ public class InvitationController {
         this.invitationService = invitationService;
     }
 
+    //temporary
+    @GetMapping(path = "/")
+    public String home(Principal principal){
+        return principal.getName();
+    }
 
     @PostMapping(path = "/api/v1/invite")
     public void Invite(@RequestBody InvitationDto invitation) {

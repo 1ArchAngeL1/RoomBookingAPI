@@ -14,6 +14,7 @@ public class Invitation {
     private Long id;
 
     @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
     Status status;
 
     @ManyToOne

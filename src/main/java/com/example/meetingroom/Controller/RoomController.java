@@ -18,22 +18,22 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @PostMapping("/api/v1/addroom")
+    @PostMapping(path ="/api/v1/addroom")
     public void addRoom(@RequestBody RoomDto roomInfo){
         roomService.addRoom(roomInfo);
     }
 
-    @DeleteMapping("/api/v1/deleteroom")
+    @DeleteMapping(path ="/api/v1/deleteroom")
     public void deleteRoom(@RequestBody CasualDto roomInfo){
         roomService.deleteRoom(roomInfo.getId());
     }
 
-    @PutMapping("/api/v1/editroom")
+    @PutMapping(path = "/api/v1/editroom")
     public void editRoom(@RequestBody EditRoomDto roomInfo){
         roomService.editRoom(roomInfo);
     }
 
-    @GetMapping("/api/v1/getroom")
+    @GetMapping(path = "/api/v1/getroom")
     public Room getRoom(@RequestBody CasualDto roomInfo){
         return roomService.getRoom(roomInfo.getId());
     }

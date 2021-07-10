@@ -3,9 +3,11 @@ package com.example.meetingroom.Repository;
 import com.example.meetingroom.Entity.User;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.cdi.Eager;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Eager
 public interface UserRepository extends JpaRepository<User,String> {
 
     @Override

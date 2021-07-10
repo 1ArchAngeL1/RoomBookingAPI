@@ -2,11 +2,13 @@ package com.example.meetingroom.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Proxy(lazy = false)
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,11 +28,12 @@ public class User {
         this.password = password;
         this.full_name = full_name;
     }
-    @JsonIgnore
+
+//    @JsonIgnore
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private List<Invitation>  invitations = new ArrayList<>();
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "host",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private List<Reservation> hostedMeetings = new ArrayList<>();
 
@@ -43,7 +46,7 @@ public class User {
         return hostedMeetings;
     }
 
-    @JsonIgnore
+
     public ArrayList<Room> getRooms(){
         ArrayList<Room> rooms = new ArrayList<>();
         for(Invitation res : invitations){
@@ -66,15 +69,8 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getFull_name() {
         return full_name;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
-    }
 }
