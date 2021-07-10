@@ -30,14 +30,17 @@ public class InvitationService {
         this.reservationService = reservationService;
     }
 
-    public void addInvitation(InvitationDto invitation){
+    public void addInvitation(InvitationDto invitation,String hostname){
         String username = invitation.getUsername();
+        if(hostname.equals(username))return;
         Long reservation_id = invitation.getReservation_id();
         Status status = invitation.getStatus();
         User user = userService.getUser(username);
         Reservation reservation = reservationService.getReservationInside(reservation_id);
         if(user != null && reservation != null){
-            invitationRepository.save(new Invitation(user,reservation,status));
+            if(reservation.getHost().getUsername().equals(hostname)){
+                invitationRepository.save(new Invitation(user,reservation,status));
+            }
         }
     }
 
@@ -46,22 +49,34 @@ public class InvitationService {
     }
 
 
-    public void cencelInvitation(Long invitation_id){
+    public void cencelInvitation(Long invitation_id,String username){
         if(invitationRepository.existsById(invitation_id)){
-            invitationRepository.deleteById(invitation_id);
+            Invitation inv = invitationRepository.getById(invitation_id);
+            Reservation res = inv.getReservation();
+            User host = res.getHost();
+            if(host.getUsername().equals(username)){
+                invitationRepository.deleteById(invitation_id);
+            }
         }
     }
 
-    public void acceptInvitation(Long invitation_id){
+    public void acceptInvitation(Long invitation_id,String username){
         if(invitationRepository.existsById(invitation_id)){
             Invitation invitation = invitationRepository.getById(invitation_id);
-            invitation.setStatus(Status.ACCEPTED);
-            invitationRepository.save(invitation);
+            if(invitation.getUser().getUsername().equals(username)){
+                invitation.setStatus(Status.ACCEPTED);
+                invitationRepository.save(invitation);
+            }
         }
     }
-    public void rejectInvitation(Long invitation_id){
+
+    public void rejectInvitation(Long invitation_id,String username){
         if(invitationRepository.existsById(invitation_id)){
-           invitationRepository.deleteById(invitation_id);
+            Invitation invitation = invitationRepository.getById(invitation_id);
+            if(invitation.getUser().getUsername().equals(username)){
+                invitation.setStatus(Status.REJECTED);
+                invitationRepository.save(invitation);
+            }
         }
     }
 

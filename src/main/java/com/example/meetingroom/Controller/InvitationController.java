@@ -27,21 +27,21 @@ public class InvitationController {
     @PostMapping(path = "/api/v1/invite")
     public void Invite(@RequestBody InvitationDto invitation,Principal user) {
         invitation.setStatus(Status.PENDING);
-        invitationService.addInvitation(invitation);
+        invitationService.addInvitation(invitation,user.getName());
     }
 
     @DeleteMapping("/api/v1/cencelinvitation")
     public void cencelInvitation(@RequestBody CasualDto info,Principal user){
-        invitationService.cencelInvitation(info.getId());
+        invitationService.cencelInvitation(info.getId(),user.getName());
     }
 
     @PostMapping(path = "api/v1/accept")
     public void acceptInvitation(@RequestBody CasualDto id,Principal user){
-        invitationService.acceptInvitation(id.getId());
+        invitationService.acceptInvitation(id.getId(),user.getName());
     }
 
     @DeleteMapping(path = "api/v1/decline")
     public void declineInvitation(@RequestBody CasualDto id,Principal user){
-        invitationService.rejectInvitation(id.getId());
+        invitationService.rejectInvitation(id.getId(),user.getName());
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.data.repository.cdi.Eager;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Eager
 public interface UserRepository extends JpaRepository<User,String> {
 
     @Override

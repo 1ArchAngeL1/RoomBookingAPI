@@ -33,8 +33,6 @@ public class Invitation {
         this.status = status;
     }
 
-
-
     public void setStatus(Status status) {
         this.status = status;
     }

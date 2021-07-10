@@ -21,7 +21,7 @@ public class RoomDto {
         this.room_id = room_id;
     }
 
-    public RoomDto(int num_allowed, String room_creator) {
+    public RoomDto(int num_allowed) {
         this.num_allowed = num_allowed;
         this.room_creator = room_creator;
     }

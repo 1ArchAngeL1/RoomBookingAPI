@@ -56,7 +56,7 @@ public class RoomService {
         if(roomRepository.existsById(id)){
             Room room = roomRepository.getById(id);
             if(room.getRoom_creator().equals(username)){
-                RoomDto forReturn = new RoomDto(room.getPeople_allowed(),room.getRoom_creator());
+                RoomDto forReturn = new RoomDto(room.getPeople_allowed());
                 forReturn.setRoom_id(room.getRoom_id());
                 return forReturn;
             }

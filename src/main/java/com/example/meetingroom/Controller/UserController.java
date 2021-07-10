@@ -74,8 +74,7 @@ public class UserController {
 
     @GetMapping(path = "/api/v1/getinvitations")
     @ResponseBody
-    public List<Invitation> invitations(@RequestBody CasualStringDto info,Principal user){
-        System.out.println(info.getUsername());
-        return userService.getInvitations(info.getUsername());
+    public List<Invitation> invitations(Principal user){
+        return userService.getInvitations(user.getName());
     }
 }

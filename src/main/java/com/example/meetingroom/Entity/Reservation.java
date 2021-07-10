@@ -48,6 +48,7 @@ public class Reservation {
         return max_size > current_num;
     }
 
+
     public List<User> invitedUsers(){
         ArrayList<User> invitedUsers = new ArrayList<>();
         for(Invitation inv :reservations){
