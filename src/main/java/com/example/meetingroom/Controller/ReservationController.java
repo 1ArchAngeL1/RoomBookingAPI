@@ -8,6 +8,7 @@ import com.example.meetingroom.Service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,25 +22,25 @@ public class ReservationController {
     }
 
     @PostMapping(path = "/api/v1/addreservation")
-    public void addReservation(@RequestBody ReservationDto info){
+    public void addReservation(@RequestBody ReservationDto info,Principal user){
         System.out.println(info.getStart_time());
         System.out.println(info.getRoom_id());
         reservationService.addReservation(info);
     }
 
     @DeleteMapping(path = "/api/v1/deletereservation")
-    public void deleteReservation(@RequestBody  CasualDto info){
+    public void deleteReservation(@RequestBody  CasualDto info, Principal user){
         reservationService.cencelReservation(info.getId());
     }
 
     @GetMapping(path = "/api/v1/getreservation")
-    public void getReservation(@RequestBody CasualDto info){
+    public void getReservation(@RequestBody CasualDto info,Principal user){
         reservationService.getReservation(info.getId());
     }
 
 
     @GetMapping(path = "/api/v1/getinvitedusers")
-    public List<User> getInvitedUsers(@RequestBody CasualDto info){
+    public List<User> getInvitedUsers(@RequestBody CasualDto info,Principal user){
         return reservationService.getInvitedUsers(info.getId());
     }
 }

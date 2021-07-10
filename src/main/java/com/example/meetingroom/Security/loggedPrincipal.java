@@ -4,20 +4,21 @@ import com.example.meetingroom.Entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class AccDetails implements UserDetails {
+public class loggedPrincipal implements UserDetails {
     private String username;
     private String password;
 
-    public AccDetails(String username,String password){
+    public loggedPrincipal(String username, String password){
         this.username = username;
         this.password = password;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
