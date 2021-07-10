@@ -20,12 +20,10 @@ public class ReservationDto {
     @JsonInclude
     private String host_name;
 
-
-    public ReservationDto(Long room_id, Date start_time, Date  end_time, String host_name) {
+    public ReservationDto(Long room_id, Date start_time, Date  end_time) {
         this.room_id = room_id;
         this.start_time = start_time;
         this.end_time = end_time;
-        this.host_name = host_name;
     }
 
     public Long getRoom_id() {

@@ -35,7 +35,7 @@ public class InvitationService {
         Long reservation_id = invitation.getReservation_id();
         Status status = invitation.getStatus();
         User user = userService.getUser(username);
-        Reservation reservation = reservationService.getReservation(reservation_id);
+        Reservation reservation = reservationService.getReservationInside(reservation_id);
         if(user != null && reservation != null){
             invitationRepository.save(new Invitation(user,reservation,status));
         }

@@ -19,14 +19,25 @@ public class Room {
     @Column(name = "NUM_ALLOWED")
     private int people_allowed;
 
+    @Column(name = "CREATOR")
+    private String room_creator;
+
+    public String getRoom_creator() {
+        return room_creator;
+    }
+
+    public void setRoom_creator(String room_creator) {
+        this.room_creator = room_creator;
+    }
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "room",cascade = CascadeType.REMOVE)
     private List<Reservation> reservationsOnThisRoom = new ArrayList<>();
 
 
-    public Room(int people_allowed) {
+    public Room(int people_allowed,String room_creator) {
         this.people_allowed = people_allowed;
+        this.room_creator = room_creator;
     }
     public Room() {}
 

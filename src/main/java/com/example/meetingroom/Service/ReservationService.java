@@ -36,8 +36,9 @@ public class ReservationService {
         this.invitationService = invitationService;
     }
 
-    public void addReservation(ReservationDto reservationInfo){
-        String hostname = reservationInfo.getHost_name();
+
+    public void addReservation(ReservationDto reservationInfo,String username){
+        String hostname =username;
         Date  starting = reservationInfo.getStart_time();
         Date  ending = reservationInfo.getEnd_time();
         Long room_id = reservationInfo.getRoom_id();
@@ -46,17 +47,29 @@ public class ReservationService {
                 reservation.interrupts(starting,ending) == true).
                 collect(Collectors.toList());
         if(result.size() == 0){
-            if(userService.getUser(hostname) != null && roomService.getRoom(room_id) != null){
+            if(roomService.getRoomInside(room_id) != null){
                 User host = userService.getUser(hostname);
-                Room room = roomService.getRoom(room_id);
+                Room room = roomService.getRoomInside(room_id);
                 Reservation newReservation = new Reservation(room,starting,ending,host);
                 reservationRepository.save(newReservation);
             }
         }
     }
 
-    public Reservation getReservation(Long id){
-        if(reservationRepository.existsById(id))return reservationRepository.getById(id);
+    public Reservation getReservation(Long id,String username){
+        if(reservationRepository.existsById(id)){
+            Reservation res = reservationRepository.getById(id);
+            if(res.getHost().getUsername().equals(username)){
+                return res;
+            }
+        }
+        return null;
+    }
+
+    public List<Reservation> getAllReservations(String username){
+        if(userService.getUser(username) != null){
+            return userService.getUser(username).getHostedMeetings();
+        }
         return null;
     }
 
@@ -67,11 +80,18 @@ public class ReservationService {
         }
     }
 
-    public List<User> getInvitedUsers(Long id){
+    public List<User> getInvitedUsers(Long id,String username){
         if(reservationRepository.existsById(id)){
-            return reservationRepository.getById(id).invitedUsers();
+            Reservation res = reservationRepository.getById(id);
+            if(res.getHost().getUsername().equals(username)){
+                return res.invitedUsers();
+            }
         }
         return null;
     }
 
+    public Reservation getReservationInside(Long id) {
+        if(reservationRepository.existsById(id))return reservationRepository.getById(id);
+        return null;
+    }
 }

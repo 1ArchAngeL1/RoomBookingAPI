@@ -2,6 +2,7 @@ package com.example.meetingroom.Controller;
 
 import com.example.meetingroom.DTO.CasualDto;
 import com.example.meetingroom.DTO.ReservationDto;
+import com.example.meetingroom.Entity.Reservation;
 import com.example.meetingroom.Entity.User;
 import com.example.meetingroom.Repository.ReservationRepository;
 import com.example.meetingroom.Service.ReservationService;
@@ -23,9 +24,7 @@ public class ReservationController {
 
     @PostMapping(path = "/api/v1/addreservation")
     public void addReservation(@RequestBody ReservationDto info,Principal user){
-        System.out.println(info.getStart_time());
-        System.out.println(info.getRoom_id());
-        reservationService.addReservation(info);
+        reservationService.addReservation(info,user.getName());
     }
 
     @DeleteMapping(path = "/api/v1/deletereservation")
@@ -34,13 +33,18 @@ public class ReservationController {
     }
 
     @GetMapping(path = "/api/v1/getreservation")
-    public void getReservation(@RequestBody CasualDto info,Principal user){
-        reservationService.getReservation(info.getId());
+    public Reservation getReservation(@RequestBody CasualDto info,Principal user){
+       return reservationService.getReservation(info.getId(),user.getName());
+    }
+
+    @GetMapping(path = "/api/v1/getallreservations")
+    public List<Reservation> getAllReservations(Principal user){
+        return reservationService.getAllReservations(user.getName());
     }
 
 
     @GetMapping(path = "/api/v1/getinvitedusers")
     public List<User> getInvitedUsers(@RequestBody CasualDto info,Principal user){
-        return reservationService.getInvitedUsers(info.getId());
+        return reservationService.getInvitedUsers(info.getId(),user.getName());
     }
 }

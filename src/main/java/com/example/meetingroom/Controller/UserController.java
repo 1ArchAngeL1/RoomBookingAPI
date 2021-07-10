@@ -54,28 +54,28 @@ public class UserController {
 
     @PostMapping
     @RequestMapping(path = "/api/v1/register")
-    public void register(@RequestBody UserDto info){
+    public void register(@RequestBody UserDto info,Principal user){
         String password = info.getPassword();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         info.setPassword(encoder.encode(password));
         userService.addUser(info);
     }
 
-    @DeleteMapping
-    @RequestMapping(path = "/api/v1/deleteuser")
-    public void delete(@RequestBody CasualStringDto info){
-        userService.deleteUser(info.getUsername());
-    }
+//    @DeleteMapping
+//    @RequestMapping(path = "/api/v1/deleteuser")
+//    public void delete(@RequestBody CasualStringDto info){
+//        userService.deleteUser(info.getUsername());
+//    }
 
     @GetMapping("/api/v1/getuser")
-    public User getUser(@RequestBody CasualStringDto info){
+    public User getUser(@RequestBody CasualStringDto info,Principal user){
         return userService.getUser(info.getUsername());
     }
 
     @GetMapping(path = "/api/v1/getinvitations")
     @ResponseBody
-    public List<Invitation> invitations(@RequestBody CasualStringDto user){
-        System.out.println(user.getUsername());
-        return userService.getInvitations(user.getUsername());
+    public List<Invitation> invitations(@RequestBody CasualStringDto info,Principal user){
+        System.out.println(info.getUsername());
+        return userService.getInvitations(info.getUsername());
     }
 }

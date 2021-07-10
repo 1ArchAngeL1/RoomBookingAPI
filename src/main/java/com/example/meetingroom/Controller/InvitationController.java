@@ -25,23 +25,23 @@ public class InvitationController {
     }
 
     @PostMapping(path = "/api/v1/invite")
-    public void Invite(@RequestBody InvitationDto invitation) {
+    public void Invite(@RequestBody InvitationDto invitation,Principal user) {
         invitation.setStatus(Status.PENDING);
         invitationService.addInvitation(invitation);
     }
 
     @DeleteMapping("/api/v1/cencelinvitation")
-    public void cencelInvitation(@RequestBody CasualDto info){
+    public void cencelInvitation(@RequestBody CasualDto info,Principal user){
         invitationService.cencelInvitation(info.getId());
     }
 
     @PostMapping(path = "api/v1/accept")
-    public void acceptInvitation(@RequestBody CasualDto id){
+    public void acceptInvitation(@RequestBody CasualDto id,Principal user){
         invitationService.acceptInvitation(id.getId());
     }
 
     @DeleteMapping(path = "api/v1/decline")
-    public void declineInvitation(@RequestBody CasualDto id){
+    public void declineInvitation(@RequestBody CasualDto id,Principal user){
         invitationService.rejectInvitation(id.getId());
     }
 }
