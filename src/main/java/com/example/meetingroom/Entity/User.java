@@ -46,7 +46,6 @@ public class User {
         return hostedMeetings;
     }
 
-
     public ArrayList<Room> getRooms(){
         ArrayList<Room> rooms = new ArrayList<>();
         for(Invitation res : invitations){

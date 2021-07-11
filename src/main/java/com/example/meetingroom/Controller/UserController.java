@@ -33,10 +33,6 @@ public class UserController {
         this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping("/welcome")
-    public String welcome(Principal user){
-        return user.getName();
-    }
 
     @GetMapping
     @RequestMapping(path = "/api/v1/authenticate")
@@ -48,7 +44,6 @@ public class UserController {
         }catch (Exception ex){
             throw new Exception("username or password is invalid");
         }
-        System.out.println("mevedii");
         return jwtUtil.generateToken(user.getUsername());
     }
 
@@ -61,17 +56,12 @@ public class UserController {
         userService.addUser(info);
     }
 
-//    @DeleteMapping
-//    @RequestMapping(path = "/api/v1/deleteuser")
-//    public void delete(@RequestBody CasualStringDto info){
-//        userService.deleteUser(info.getUsername());
-//    }
-
     @GetMapping("/api/v1/getuser")
     public User getUser(@RequestBody CasualStringDto info,Principal user){
         return userService.getUser(info.getUsername());
     }
 
+    //returns list of invitations that were sent to  user
     @GetMapping(path = "/api/v1/getinvitations")
     @ResponseBody
     public List<Invitation> invitations(Principal user){

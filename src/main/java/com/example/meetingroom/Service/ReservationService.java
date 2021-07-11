@@ -74,9 +74,10 @@ public class ReservationService {
     }
 
 
-    public void cencelReservation(Long id){
+    public void cencelReservation(Long id,String username){
         if(reservationRepository.existsById(id)){
-            reservationRepository.deleteById(id);
+            Reservation res = reservationRepository.getById(id);
+            if(res.getHost().getUsername().equals(username))reservationRepository.deleteById(id);
         }
     }
 

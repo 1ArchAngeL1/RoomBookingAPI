@@ -29,7 +29,7 @@ public class ReservationController {
 
     @DeleteMapping(path = "/api/v1/deletereservation")
     public void deleteReservation(@RequestBody  CasualDto info, Principal user){
-        reservationService.cencelReservation(info.getId());
+        reservationService.cencelReservation(info.getId(),user.getName());
     }
 
     @GetMapping(path = "/api/v1/getreservation")
