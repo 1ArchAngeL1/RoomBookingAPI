@@ -45,7 +45,7 @@ public class Reservation {
     public boolean canAdd(){
         int max_size = room.getPeople_allowed();
         int current_num = reservations.size();
-        return max_size > current_num;
+        return max_size > current_num + 1;
     }
 
 

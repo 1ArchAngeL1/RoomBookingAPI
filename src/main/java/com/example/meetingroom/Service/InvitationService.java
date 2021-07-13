@@ -1,7 +1,9 @@
 package com.example.meetingroom.Service;
 
 import com.example.meetingroom.DTO.CasualDto;
+import com.example.meetingroom.DTO.ErrorMessege;
 import com.example.meetingroom.DTO.InvitationDto;
+import com.example.meetingroom.DTO.Response;
 import com.example.meetingroom.Entity.Invitation;
 import com.example.meetingroom.Entity.Reservation;
 import com.example.meetingroom.Entity.Status;
@@ -30,17 +32,30 @@ public class InvitationService {
         this.reservationService = reservationService;
     }
 
-    public void addInvitation(InvitationDto invitation,String hostname){
+    public Response addInvitation(InvitationDto invitation, String hostname){
         String username = invitation.getUsername();
-        if(hostname.equals(username))return;
+        if(hostname.equals(username))return new Response(new ErrorMessege("bad credentials"));
         Long reservation_id = invitation.getReservation_id();
         Status status = invitation.getStatus();
-        User user = userService.getUser(username);
+        User user = userService.getInsideUser(username);
         Reservation reservation = reservationService.getReservationInside(reservation_id);
+        if(reservation == null)return new Response(new ErrorMessege("bad credentials"));
+        for (User u : reservation.invitedUsers()){
+            if(u.getUsername().equals(invitation.getUsername()))return new Response(new ErrorMessege("user already invited"));
+        }
         if(user != null && reservation != null){
             if(reservation.getHost().getUsername().equals(hostname)){
-                invitationRepository.save(new Invitation(user,reservation,status));
+                Invitation inv = new Invitation(user,reservation,status);
+                if(!reservation.canAdd())return new Response(new ErrorMessege("room if full"));
+                invitationRepository.save(inv);
+                invitation.setStatus(Status.PENDING);
+                invitation.setInvitation_id(inv.getId());
+                return new Response(inv);
+            }else{
+                return new Response(new ErrorMessege("access denied"));
             }
+        }else{
+            return new Response(new ErrorMessege("bad credentials"));
         }
     }
 
@@ -49,34 +64,57 @@ public class InvitationService {
     }
 
 
-    public void cencelInvitation(Long invitation_id,String username){
+    public Response cencelInvitation(Long invitation_id,String username){
         if(invitationRepository.existsById(invitation_id)){
             Invitation inv = invitationRepository.getById(invitation_id);
             Reservation res = inv.getReservation();
             User host = res.getHost();
             if(host.getUsername().equals(username)){
                 invitationRepository.deleteById(invitation_id);
+                InvitationDto invitation = new InvitationDto(inv.getUser().getUsername(),inv.getReservation().getId());
+                invitation.setInvitation_id(inv.getId());
+                return new Response(invitation);
+            }else{
+                return new Response(new ErrorMessege("access denied"));
             }
+        }else{
+            return new Response(new ErrorMessege("bad credentials"));
         }
     }
 
-    public void acceptInvitation(Long invitation_id,String username){
+    public Response acceptInvitation(Long invitation_id,String username){
         if(invitationRepository.existsById(invitation_id)){
-            Invitation invitation = invitationRepository.getById(invitation_id);
-            if(invitation.getUser().getUsername().equals(username)){
+            Invitation inv = invitationRepository.getById(invitation_id);
+            if(inv.getUser().getUsername().equals(username)){
+                inv.setStatus(Status.ACCEPTED);
+                invitationRepository.save(inv);
+                InvitationDto invitation = new InvitationDto(inv.getUser().getUsername(),inv.getReservation().getId());
+                invitation.setInvitation_id(inv.getId());
                 invitation.setStatus(Status.ACCEPTED);
-                invitationRepository.save(invitation);
+                return new Response(invitation);
+            }else{
+                return new Response(new ErrorMessege("access denied"));
             }
+        }else{
+            return new Response(new ErrorMessege("bad credentials"));
         }
     }
 
-    public void rejectInvitation(Long invitation_id,String username){
+    public Response rejectInvitation(Long invitation_id,String username){
         if(invitationRepository.existsById(invitation_id)){
-            Invitation invitation = invitationRepository.getById(invitation_id);
-            if(invitation.getUser().getUsername().equals(username)){
+            Invitation inv = invitationRepository.getById(invitation_id);
+            if(inv.getUser().getUsername().equals(username)){
+                inv.setStatus(Status.REJECTED);
+                invitationRepository.save(inv);
+                InvitationDto invitation = new InvitationDto(inv.getUser().getUsername(),inv.getReservation().getId());
+                invitation.setInvitation_id(inv.getId());
                 invitation.setStatus(Status.REJECTED);
-                invitationRepository.save(invitation);
+                return new Response(invitation);
+            }else{
+                return new Response(new ErrorMessege("access denied"));
             }
+        }else{
+            return new Response(new ErrorMessege("bad credentials"));
         }
     }
 

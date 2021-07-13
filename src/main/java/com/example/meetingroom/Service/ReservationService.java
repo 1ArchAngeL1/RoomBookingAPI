@@ -1,7 +1,6 @@
 package com.example.meetingroom.Service;
 
-import com.example.meetingroom.DTO.CasualDto;
-import com.example.meetingroom.DTO.ReservationDto;
+import com.example.meetingroom.DTO.*;
 import com.example.meetingroom.Entity.Invitation;
 import com.example.meetingroom.Entity.Reservation;
 import com.example.meetingroom.Entity.Room;
@@ -37,7 +36,7 @@ public class ReservationService {
     }
 
 
-    public void addReservation(ReservationDto reservationInfo,String username){
+    public Response addReservation(ReservationDto reservationInfo, String username){
         String hostname =username;
         Date  starting = reservationInfo.getStart_time();
         Date  ending = reservationInfo.getEnd_time();
@@ -48,47 +47,86 @@ public class ReservationService {
                 collect(Collectors.toList());
         if(result.size() == 0){
             if(roomService.getRoomInside(room_id) != null){
-                User host = userService.getUser(hostname);
+                User host = userService.getInsideUser(hostname);
                 Room room = roomService.getRoomInside(room_id);
+                if(!room.getRoom_creator().equals(username)) return new Response(new ErrorMessege("you dont have access on the room"));
                 Reservation newReservation = new Reservation(room,starting,ending,host);
                 reservationRepository.save(newReservation);
+                reservationInfo.setReservation_id(newReservation.getId());
+                reservationInfo.setHost_name(newReservation.getHost().getUsername());
+                return new Response(reservationInfo);
+            }else{
+                return new Response(new ErrorMessege("room with given id doesn't exist"));
             }
+        }else{
+            return new Response(new ErrorMessege("room is already booked at the given time"));
         }
     }
 
-    public Reservation getReservation(Long id,String username){
+    public Response getReservation(Long id,String username){
         if(reservationRepository.existsById(id)){
             Reservation res = reservationRepository.getById(id);
             if(res.getHost().getUsername().equals(username)){
-                return res;
+                ReservationDto dto = new ReservationDto(res.getRoom().getRoom_id(),res.getStart_time(),res.getEnd_time());
+                dto.setReservation_id(res.getId());
+                dto.setHost_name(res.getHost().getUsername());
+                return new Response(dto);
+            }else{
+                return new Response(new ErrorMessege("access denied"));
             }
+        }else{
+            return new Response(new ErrorMessege("reservation with given id doesn't exist"));
         }
-        return null;
     }
 
-    public List<Reservation> getAllReservations(String username){
+    public Response getAllReservations(String username){
         if(userService.getUser(username) != null){
-            return userService.getUser(username).getHostedMeetings();
+            List<ReservationDto> dtos = new ArrayList<>();
+            List<Reservation> reservations = userService.getInsideUser(username).getHostedMeetings();
+            for(Reservation res : reservations){
+                ReservationDto dto = new ReservationDto(res.getRoom().getRoom_id(),res.getStart_time(),res.getEnd_time());
+                dto.setReservation_id(res.getId());
+                dto.setHost_name(res.getHost().getUsername());
+            }
+            return new Response(dtos);
         }
-        return null;
+       return new Response(new ErrorMessege("user doesn't exist"));
     }
 
 
-    public void cencelReservation(Long id,String username){
-        if(reservationRepository.existsById(id)){
-            Reservation res = reservationRepository.getById(id);
-            if(res.getHost().getUsername().equals(username))reservationRepository.deleteById(id);
-        }
-    }
-
-    public List<User> getInvitedUsers(Long id,String username){
+    public Response cencelReservation(Long id,String username){
         if(reservationRepository.existsById(id)){
             Reservation res = reservationRepository.getById(id);
             if(res.getHost().getUsername().equals(username)){
-                return res.invitedUsers();
+                reservationRepository.deleteById(id);
+                ReservationDto dto = new ReservationDto(res.getRoom().getRoom_id(),res.getStart_time(),res.getEnd_time());
+                dto.setReservation_id(res.getId());
+                dto.setHost_name(res.getHost().getUsername());
+                return new Response(dto);
+            }else{
+                return new Response(new ErrorMessege("access denied"));
             }
+        }else{
+            return new Response(new ErrorMessege("reservation doesn't exist"));
         }
-        return null;
+    }
+
+    public Response getInvitedUsers(Long id,String username){
+        if(reservationRepository.existsById(id)){
+            Reservation res = reservationRepository.getById(id);
+            if(res.getHost().getUsername().equals(username)){
+                List<User> users = res.invitedUsers();
+                List<UserDto> dtos = new ArrayList<>();
+                for(User user : users){
+                    dtos.add(new UserDto(user.getUsername(),"******",user.getFull_name()));
+                }
+                return new Response(dtos);
+            }else{
+                return new Response(new ErrorMessege("access denied"));
+            }
+        }else{
+            return new Response(new ErrorMessege("reservation doesn't exist"));
+        }
     }
 
     public Reservation getReservationInside(Long id) {

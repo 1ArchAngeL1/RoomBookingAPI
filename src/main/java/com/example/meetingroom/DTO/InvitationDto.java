@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class InvitationDto {
+    private Long invitation_id;
     @JsonIgnore
     Status status;
 
@@ -41,5 +42,13 @@ public class InvitationDto {
 
     public void setReservation_id(Long reservation_id) {
         this.reservation_id = reservation_id;
+    }
+
+    public Long getInvitation_id() {
+        return invitation_id;
+    }
+
+    public void setInvitation_id(Long invitation_id) {
+        this.invitation_id = invitation_id;
     }
 }

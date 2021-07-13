@@ -11,15 +11,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ReservationDto {
+    private Long reservation_id;
+
     @JsonInclude
     private Long room_id;
+
     @JsonInclude
     private Date  start_time;
     @JsonInclude
     private Date  end_time;
     @JsonInclude
     private String host_name;
-
     public ReservationDto(Long room_id, Date start_time, Date  end_time) {
         this.room_id = room_id;
         this.start_time = start_time;
@@ -28,6 +30,14 @@ public class ReservationDto {
 
     public Long getRoom_id() {
         return room_id;
+    }
+
+    public Long getReservation_id() {
+        return reservation_id;
+    }
+
+    public void setReservation_id(Long reservation_id) {
+        this.reservation_id = reservation_id;
     }
 
     public Date getStart_time() {
