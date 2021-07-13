@@ -38,15 +38,15 @@ public class UserController {
 
 
     @PostMapping(path = "/api/v1/authenticate")
-    public String login(@RequestBody LoginAuth user) throws Exception{
+    public ResponseEntity<Response> login(@RequestBody LoginAuth user) throws Exception{
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     user.getUsername(),user.getPassword())
             );
         }catch (Exception ex){
-           return "username or password is invalid";
+           return new ResponseEntity<>(new Response( "username or password is invalid"),HttpStatus.OK);
         }
-        return jwtUtil.generateToken(user.getUsername());
+        return new ResponseEntity<>(new Response(jwtUtil.generateToken(user.getUsername())),HttpStatus.OK);
     }
 
     @PostMapping

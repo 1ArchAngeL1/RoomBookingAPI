@@ -1,8 +1,8 @@
 package com.example.meetingroom.Entity;
 
 
+import com.example.meetingroom.Entity.Enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 

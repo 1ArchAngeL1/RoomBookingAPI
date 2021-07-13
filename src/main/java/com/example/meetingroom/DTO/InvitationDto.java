@@ -1,6 +1,6 @@
 package com.example.meetingroom.DTO;
 
-import com.example.meetingroom.Entity.Status;
+import com.example.meetingroom.Entity.Enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 

@@ -1,15 +1,13 @@
 package com.example.meetingroom.Service;
 
-import com.example.meetingroom.DTO.CasualDto;
 import com.example.meetingroom.DTO.ErrorMessege;
 import com.example.meetingroom.DTO.InvitationDto;
 import com.example.meetingroom.DTO.Response;
 import com.example.meetingroom.Entity.Invitation;
 import com.example.meetingroom.Entity.Reservation;
-import com.example.meetingroom.Entity.Status;
+import com.example.meetingroom.Entity.Enums.Status;
 import com.example.meetingroom.Entity.User;
 import com.example.meetingroom.Repository.InvitationRepository;
-import com.example.meetingroom.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

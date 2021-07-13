@@ -3,7 +3,7 @@ package com.example.meetingroom.Controller;
 import com.example.meetingroom.DTO.CasualDto;
 import com.example.meetingroom.DTO.InvitationDto;
 import com.example.meetingroom.DTO.Response;
-import com.example.meetingroom.Entity.Status;
+import com.example.meetingroom.Entity.Enums.Status;
 import com.example.meetingroom.Service.InvitationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
