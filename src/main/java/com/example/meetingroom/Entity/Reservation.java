@@ -59,9 +59,9 @@ public class Reservation {
 
 
     public boolean interrupts(Date  starting,Date  ending){
-        if(starting.compareTo(start_time) > 0 && starting.compareTo(end_time) < 0)return true;
-        if(ending.compareTo(end_time) < 0 && ending.compareTo(start_time) > 0)return true;
-        if(starting.compareTo(start_time) < 0 && ending.compareTo(end_time) > 0)return true;
+        if(starting.compareTo(start_time) >= 0 && starting.compareTo(end_time) <= 0)return true;
+        if(ending.compareTo(end_time) <= 0 && ending.compareTo(start_time) >= 0)return true;
+        if(starting.compareTo(start_time) <= 0 && ending.compareTo(end_time) >= 0)return true;
         return false;
     }
 
