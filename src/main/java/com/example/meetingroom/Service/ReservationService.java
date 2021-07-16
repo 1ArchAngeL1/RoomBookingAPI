@@ -87,6 +87,7 @@ public class ReservationService {
                 ReservationDto dto = new ReservationDto(res.getRoom().getRoom_id(),res.getStart_time(),res.getEnd_time());
                 dto.setReservation_id(res.getId());
                 dto.setHost_name(res.getHost().getUsername());
+                dtos.add(dto);
             }
             return new Response(dtos);
         }
