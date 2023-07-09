@@ -31,15 +31,17 @@ public class Room {
     }
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "room",cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.REMOVE)
     private List<Reservation> reservationsOnThisRoom = new ArrayList<>();
 
 
-    public Room(int people_allowed,String room_creator) {
+    public Room(int people_allowed, String room_creator) {
         this.people_allowed = people_allowed;
         this.room_creator = room_creator;
     }
-    public Room() {}
+
+    public Room() {
+    }
 
     @JsonIgnore
     public List<Reservation> getReservationsOnThisRoom() {

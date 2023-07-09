@@ -20,7 +20,7 @@ public class User {
     private String password;
 
 
-    @Column(nullable = false,name = "FULL_NAME")
+    @Column(nullable = false, name = "FULL_NAME")
     private String full_name;
 
     public User(String username, String password, String full_name) {
@@ -29,12 +29,12 @@ public class User {
         this.full_name = full_name;
     }
 
-//    @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
-    private List<Invitation>  invitations = new ArrayList<>();
+    //    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private List<Invitation> invitations = new ArrayList<>();
 
-//    @JsonIgnore
-    @OneToMany(mappedBy = "host",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
+    //    @JsonIgnore
+    @OneToMany(mappedBy = "host", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<Reservation> hostedMeetings = new ArrayList<>();
 
 
@@ -46,15 +46,16 @@ public class User {
         return hostedMeetings;
     }
 
-    public ArrayList<Room> getRooms(){
+    public ArrayList<Room> getRooms() {
         ArrayList<Room> rooms = new ArrayList<>();
-        for(Invitation res : invitations){
+        for (Invitation res : invitations) {
             rooms.add(res.getReservation().getRoom());
         }
         return rooms;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public String getUsername() {
         return username;

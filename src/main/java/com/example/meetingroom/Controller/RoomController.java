@@ -16,36 +16,36 @@ public class RoomController {
     RoomService roomService;
 
     @Autowired
-    public RoomController(RoomService roomService){
+    public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
 
-    @PostMapping(path ="/api/v1/addroom")
-    public ResponseEntity<Response> addRoom(@RequestBody RoomDto roomInfo, Principal user){
+    @PostMapping(path = "/api/v1/addroom")
+    public ResponseEntity<Response> addRoom(@RequestBody RoomDto roomInfo, Principal user) {
         roomInfo.setRoom_creator(user.getName());
-        return new ResponseEntity<Response>(roomService.addRoom(roomInfo),HttpStatus.OK);
+        return new ResponseEntity<Response>(roomService.addRoom(roomInfo), HttpStatus.OK);
 
     }
 
-    @DeleteMapping(path ="/api/v1/deleteroom")
-    public ResponseEntity<Response> deleteRoom(@RequestBody CasualDto roomInfo,Principal user){
-        return new ResponseEntity<Response>(roomService.deleteRoom(roomInfo.getId(),user.getName()),HttpStatus.OK);
+    @DeleteMapping(path = "/api/v1/deleteroom")
+    public ResponseEntity<Response> deleteRoom(@RequestBody CasualDto roomInfo, Principal user) {
+        return new ResponseEntity<Response>(roomService.deleteRoom(roomInfo.getId(), user.getName()), HttpStatus.OK);
     }
 
     @PutMapping(path = "/api/v1/changenumallowed")
-    public ResponseEntity<Response> changeNumAllowed(@RequestBody ChangeNumAllowedDto roomInfo, Principal user){
-        return new ResponseEntity<Response>(roomService.changeNumAllowed(roomInfo,user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> changeNumAllowed(@RequestBody ChangeNumAllowedDto roomInfo, Principal user) {
+        return new ResponseEntity<Response>(roomService.changeNumAllowed(roomInfo, user.getName()), HttpStatus.OK);
     }
 
     @PutMapping(path = "/api/v1/changeowner")
-    public ResponseEntity<Response> changeOwner(@RequestBody ChangeRoomCreatorDto roomInfo, Principal user){
-        return new ResponseEntity<Response>(roomService.giveHosting(roomInfo,user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> changeOwner(@RequestBody ChangeRoomCreatorDto roomInfo, Principal user) {
+        return new ResponseEntity<Response>(roomService.giveHosting(roomInfo, user.getName()), HttpStatus.OK);
     }
 
 
     @PostMapping(path = "/api/v1/getroom")
-    public ResponseEntity<Response> getRoom(@RequestBody CasualDto roomInfo, Principal user){
-        return new ResponseEntity<Response>(roomService.getRoom(roomInfo.getId(),user.getName()), HttpStatus.OK);
+    public ResponseEntity<Response> getRoom(@RequestBody CasualDto roomInfo, Principal user) {
+        return new ResponseEntity<Response>(roomService.getRoom(roomInfo.getId(), user.getName()), HttpStatus.OK);
     }
 
 }

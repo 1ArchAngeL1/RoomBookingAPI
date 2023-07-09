@@ -7,7 +7,7 @@ import org.springframework.data.repository.cdi.Eager;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,String> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     @Override
     public <S extends User> S save(S s);

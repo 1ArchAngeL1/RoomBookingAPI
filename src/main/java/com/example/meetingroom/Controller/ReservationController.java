@@ -21,34 +21,34 @@ public class ReservationController {
     ReservationService reservationService;
 
     @Autowired
-    public ReservationController(ReservationService reservationService){
+    public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
     @PostMapping(path = "/api/v1/addreservation")
-    public ResponseEntity<Response> addReservation(@RequestBody ReservationDto info, Principal user){
-        return new ResponseEntity<Response>( reservationService.addReservation(info,user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> addReservation(@RequestBody ReservationDto info, Principal user) {
+        return new ResponseEntity<Response>(reservationService.addReservation(info, user.getName()), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/api/v1/deletereservation")
-    public ResponseEntity<Response> deleteReservation(@RequestBody  CasualDto info, Principal user){
-        return new ResponseEntity<Response>(reservationService.cencelReservation(info.getId(),user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> deleteReservation(@RequestBody CasualDto info, Principal user) {
+        return new ResponseEntity<Response>(reservationService.cencelReservation(info.getId(), user.getName()), HttpStatus.OK);
     }
 
     @PostMapping(path = "/api/v1/getreservation")
-    public ResponseEntity<Response> getReservation(@RequestBody CasualDto info,Principal user){
-       return new ResponseEntity<Response>(reservationService.getReservation(info.getId(),user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> getReservation(@RequestBody CasualDto info, Principal user) {
+        return new ResponseEntity<Response>(reservationService.getReservation(info.getId(), user.getName()), HttpStatus.OK);
     }
 
     //returns reservations hosted by user
     @GetMapping(path = "/api/v1/getallreservations")
-    public ResponseEntity<Response> getAllReservations(Principal user){
-        return new ResponseEntity<Response>(reservationService.getAllReservations(user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> getAllReservations(Principal user) {
+        return new ResponseEntity<Response>(reservationService.getAllReservations(user.getName()), HttpStatus.OK);
     }
 
     //returns users invited on the reservation
     @PostMapping(path = "/api/v1/getinvitedusers")
-    public ResponseEntity<Response> geInvitedUsers(@RequestBody CasualDto info, Principal user){
-        return new ResponseEntity<Response>(reservationService.getInvitedUsers(info.getId(),user.getName()), HttpStatus.OK);
+    public ResponseEntity<Response> geInvitedUsers(@RequestBody CasualDto info, Principal user) {
+        return new ResponseEntity<Response>(reservationService.getInvitedUsers(info.getId(), user.getName()), HttpStatus.OK);
     }
 }

@@ -22,23 +22,23 @@ public class InvitationController {
     }
 
     @PostMapping(path = "/api/v1/invite")
-    public ResponseEntity<Response> Invite(@RequestBody InvitationDto invitation,Principal user) {
+    public ResponseEntity<Response> Invite(@RequestBody InvitationDto invitation, Principal user) {
         invitation.setStatus(Status.PENDING);
-        return new ResponseEntity<Response>(invitationService.addInvitation(invitation,user.getName()),HttpStatus.OK);
+        return new ResponseEntity<Response>(invitationService.addInvitation(invitation, user.getName()), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/v1/cencelinvitation")
-    public ResponseEntity<Response> cencelInvitation(@RequestBody CasualDto info,Principal user){
-        return new ResponseEntity<Response>(invitationService.cencelInvitation(info.getId(),user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> cencelInvitation(@RequestBody CasualDto info, Principal user) {
+        return new ResponseEntity<Response>(invitationService.cencelInvitation(info.getId(), user.getName()), HttpStatus.OK);
     }
 
     @PutMapping(path = "api/v1/accept")
-    public ResponseEntity<Response> acceptInvitation(@RequestBody CasualDto id,Principal user){
-        return new ResponseEntity<Response>(invitationService.acceptInvitation(id.getId(),user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> acceptInvitation(@RequestBody CasualDto id, Principal user) {
+        return new ResponseEntity<Response>(invitationService.acceptInvitation(id.getId(), user.getName()), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "api/v1/decline")
-    public ResponseEntity<Response> declineInvitation(@RequestBody CasualDto id, Principal user){
-        return new ResponseEntity<Response>(invitationService.rejectInvitation(id.getId(),user.getName()), HttpStatus.OK);
+    public ResponseEntity<Response> declineInvitation(@RequestBody CasualDto id, Principal user) {
+        return new ResponseEntity<Response>(invitationService.rejectInvitation(id.getId(), user.getName()), HttpStatus.OK);
     }
 }

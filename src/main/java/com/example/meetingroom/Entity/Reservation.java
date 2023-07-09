@@ -18,54 +18,55 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ROOM_ID",referencedColumnName = "ROOM_ID")
+    @JoinColumn(name = "ROOM_ID", referencedColumnName = "ROOM_ID")
     private Room room;
 
     @Column(name = "STARTS")
-    private Date  start_time;
+    private Date start_time;
 
     @Column(name = "ENDS")
-    private Date  end_time;
+    private Date end_time;
 
     @ManyToOne
-    @JoinColumn(name = "HOST_ID",referencedColumnName = "USERNAME")
+    @JoinColumn(name = "HOST_ID", referencedColumnName = "USERNAME")
     private User host;
 
-    public Reservation(Room room, Date  start_time, Date  end_time,User host) {
+    public Reservation(Room room, Date start_time, Date end_time, User host) {
         this.room = room;
         this.start_time = start_time;
         this.end_time = end_time;
         this.host = host;
     }
 
-    @OneToMany(mappedBy = "reservation",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Invitation> reservations = new ArrayList<>();
 
 
-    public boolean canAdd(){
+    public boolean canAdd() {
         int max_size = room.getPeople_allowed();
         int current_num = reservations.size();
         return max_size > current_num + 1;
     }
 
 
-    public List<User> invitedUsers(){
+    public List<User> invitedUsers() {
         ArrayList<User> invitedUsers = new ArrayList<>();
-        for(Invitation inv :reservations){
+        for (Invitation inv : reservations) {
             invitedUsers.add(inv.getUser());
         }
         return invitedUsers;
     }
 
 
-    public boolean interrupts(Date  starting,Date  ending){
-        if(starting.compareTo(start_time) >= 0 && starting.compareTo(end_time) <= 0)return true;
-        if(ending.compareTo(end_time) <= 0 && ending.compareTo(start_time) >= 0)return true;
-        if(starting.compareTo(start_time) <= 0 && ending.compareTo(end_time) >= 0)return true;
+    public boolean interrupts(Date starting, Date ending) {
+        if (starting.compareTo(start_time) >= 0 && starting.compareTo(end_time) <= 0) return true;
+        if (ending.compareTo(end_time) <= 0 && ending.compareTo(start_time) >= 0) return true;
+        if (starting.compareTo(start_time) <= 0 && ending.compareTo(end_time) >= 0) return true;
         return false;
     }
 
-    public Reservation() {}
+    public Reservation() {
+    }
 
     public User getHost() {
         return host;
@@ -75,7 +76,7 @@ public class Reservation {
         return id;
     }
 
-    public Room getRoom(){
+    public Room getRoom() {
         return room;
     }
 

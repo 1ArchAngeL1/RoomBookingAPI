@@ -30,7 +30,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserController(UserService userService,JwtUtil jwtUtil,AuthenticationManager authenticationManager){
+    public UserController(UserService userService, JwtUtil jwtUtil, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
@@ -38,20 +38,20 @@ public class UserController {
 
 
     @PostMapping(path = "/api/v1/authenticate")
-    public ResponseEntity<Response> login(@RequestBody LoginAuth user) throws Exception{
-        try{
+    public ResponseEntity<Response> login(@RequestBody LoginAuth user) throws Exception {
+        try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    user.getUsername(),user.getPassword())
+                    user.getUsername(), user.getPassword())
             );
-        }catch (Exception ex){
-           return new ResponseEntity<>(new Response( "username or password is invalid"),HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new Response("username or password is invalid"), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new Response(jwtUtil.generateToken(user.getUsername())),HttpStatus.OK);
+        return new ResponseEntity<>(new Response(jwtUtil.generateToken(user.getUsername())), HttpStatus.OK);
     }
 
     @PostMapping
     @RequestMapping(path = "/api/v1/register")
-    public ResponseEntity<Response> register(@RequestBody UserDto info, Principal user){
+    public ResponseEntity<Response> register(@RequestBody UserDto info, Principal user) {
         String password = info.getPassword();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         info.setPassword(encoder.encode(password));
@@ -59,14 +59,14 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/getuser")
-    public ResponseEntity<Response> getUser(Principal user){
-        return new ResponseEntity<>(userService.getUser(user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> getUser(Principal user) {
+        return new ResponseEntity<>(userService.getUser(user.getName()), HttpStatus.OK);
     }
 
     //returns list of invitations that were sent to user
     @GetMapping(path = "/api/v1/getinvitations")
     @ResponseBody
-    public ResponseEntity<Response> invitations(Principal user){
-        return new ResponseEntity<>(userService.getInvitations(user.getName()),HttpStatus.OK);
+    public ResponseEntity<Response> invitations(Principal user) {
+        return new ResponseEntity<>(userService.getInvitations(user.getName()), HttpStatus.OK);
     }
 }

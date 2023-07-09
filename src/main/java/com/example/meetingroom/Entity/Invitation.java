@@ -18,16 +18,16 @@ public class Invitation {
     Status status;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID",referencedColumnName = "USERNAME")
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USERNAME")
     @JsonIgnore
     private User user;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "RESERVATION_ID",referencedColumnName = "ID")
+    @JoinColumn(name = "RESERVATION_ID", referencedColumnName = "ID")
     private Reservation reservation;
 
-    public Invitation(User user, Reservation reservation,Status status) {
+    public Invitation(User user, Reservation reservation, Status status) {
         this.user = user;
         this.reservation = reservation;
         this.status = status;
@@ -37,7 +37,8 @@ public class Invitation {
         this.status = status;
     }
 
-    public Invitation() {}
+    public Invitation() {
+    }
 
     public Long getId() {
         return id;

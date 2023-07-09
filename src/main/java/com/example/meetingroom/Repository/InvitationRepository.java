@@ -9,7 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Repository
-public interface InvitationRepository extends JpaRepository<Invitation,Long> {
+public interface InvitationRepository extends JpaRepository<Invitation, Long> {
     @Override
     <S extends Invitation> S save(S s);
 
